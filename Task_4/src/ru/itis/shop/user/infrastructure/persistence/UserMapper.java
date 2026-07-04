@@ -23,10 +23,10 @@ public class UserMapper {
     public User fromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User(
                 String.valueOf(resultSet.getInt("id")).trim(),
+                resultSet.getString("name").trim(),
                 resultSet.getString("email").trim(),
                 resultSet.getString("password").trim(),
                 resultSet.getString("profile_description").trim());
-        user.setName(resultSet.getString("name").trim());
         return user;
     }
 }

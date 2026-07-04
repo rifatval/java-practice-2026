@@ -10,6 +10,14 @@ public class User {
 
     private String profileDescription;
 
+    public User(String id, String name, String email, String password, String profileDescription) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.profileDescription = profileDescription;
+    }
+
     public User(String id, String email, String password, String profileDescription) {
         this.id = id;
         this.email = email;
