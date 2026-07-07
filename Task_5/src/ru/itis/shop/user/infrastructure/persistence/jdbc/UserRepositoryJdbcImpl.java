@@ -4,7 +4,6 @@ import ru.itis.shop.infrastructure.persistence.jdbc.RowMapper;
 import ru.itis.shop.user.domain.User;
 import ru.itis.shop.user.repository.UserRepository;
 
-import javax.sql.ConnectionEvent;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -65,6 +64,24 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     @Override
     public void update(User user) {
 
+    }
+
+    @Override
+    public List<User> findAllByProfileDescription(String profileDescription) {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery(
+                        String.format("select * from account where profile_description = '%s'", profileDescription))) {
+                    while (resultSet.next()) {
+                        users.add(userRowMapper.mapRow(resultSet));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
+        return users;
     }
 
 }

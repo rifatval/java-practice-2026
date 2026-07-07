@@ -3,7 +3,6 @@ package ru.itis.shop.user.application;
 import ru.itis.shop.user.domain.User;
 import ru.itis.shop.user.repository.UserRepository;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -63,10 +62,19 @@ public class UserService {
 
     public void showAllUsers() {
         List<User> allUsers = userRepository.findAll();
-        if (allUsers == null) return;
+        showInfoAboutUser(allUsers);
+    }
+
+    private static void showInfoAboutUser(List<User> allUsers) {
         for (User user : allUsers) {
             System.out.println("Имя: " + user.getName() +
                                 ", почта: " + user.getEmail());
         }
     }
+
+    public void showAllUsersByProfileDescription(String profileDescription) {
+        List<User> users = userRepository.findAllByProfileDescription(profileDescription);
+        showInfoAboutUser(users);
+    }
+
 }

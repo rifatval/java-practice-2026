@@ -1,6 +1,8 @@
 package ru.itis.shop.app;
 
 import ru.itis.shop.infrastructure.persistence.jdbc.DriverManagerDataSource;
+import ru.itis.shop.user.api.UserConsoleOperations;
+import ru.itis.shop.user.application.UserService;
 import ru.itis.shop.user.infrastructure.persistence.jdbc.UserRepositoryJdbcImpl;
 import ru.itis.shop.user.repository.UserRepository;
 
@@ -17,13 +19,13 @@ public class Main {
 
         UserRepository userRepository = new UserRepositoryJdbcImpl(dataSource);
 
-        System.out.println(userRepository.findAll());
-//        UserService userService = new UserService(userRepository);
+        //System.out.println(userRepository.findAllByProfileDescription("Student"));
+        UserService userService = new UserService(userRepository);
 
-//        UserConsoleOperations operations = new UserConsoleOperations(userService);
-//
-//        while (true) {
-//            operations.showMenu();
-//        }
+        UserConsoleOperations operations = new UserConsoleOperations(userService);
+
+        while (true) {
+            operations.showMenu();
+        }
     }
 }

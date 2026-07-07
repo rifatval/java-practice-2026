@@ -40,6 +40,10 @@ public class UserConsoleOperations {
                 showAllUsers();
             }
             break;
+            case "6": {
+                showAllUsersByProfileDescription();
+            }
+            break;
             case "0": {
                 System.exit(0);
             }
@@ -52,6 +56,7 @@ public class UserConsoleOperations {
         System.out.println("3. Найти пользователя по id");
         System.out.println("4. Обновить описание профиля по email");
         System.out.println("5. Показать всех пользователей");
+        System.out.println("6. Показать информацию о пользователях с заданным profileDescription");
         System.out.println("0. Выход");
     }
 
@@ -85,13 +90,13 @@ public class UserConsoleOperations {
     }
 
     // method prints user`s Email by it`s Id
+
     private void findById() {
         System.out.println("Введите id пользователя:");
         Integer id = scanner.nextInt();
 
         userService.findById(id);
     }
-
     private void updateProfileDescriptionByEmail() {
         System.out.println("Вы можете изменить описание профиля");
         System.out.println("Введите email:");
@@ -100,8 +105,14 @@ public class UserConsoleOperations {
     }
 
     private void showAllUsers() {
-        System.out.printf("Ниже представлен список всех пользователей:\n");
+        System.out.println("Ниже представлен список всех пользователей:\n");
         userService.showAllUsers();
+    }
+
+    private void showAllUsersByProfileDescription() {
+        System.out.println("Введите profileDescription:");
+        String profileDescription = scanner.nextLine();
+        userService.showAllUsersByProfileDescription(profileDescription);
     }
 
 }
