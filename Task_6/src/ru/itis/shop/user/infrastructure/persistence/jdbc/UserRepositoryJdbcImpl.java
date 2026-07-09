@@ -1,7 +1,6 @@
 package ru.itis.shop.user.infrastructure.persistence.jdbc;
 
 import ru.itis.shop.infrastructure.persistence.jdbc.RowMapper;
-import ru.itis.shop.user.api.dto.UserDto;
 import ru.itis.shop.user.domain.User;
 import ru.itis.shop.user.repository.UserRepository;
 
@@ -20,13 +19,6 @@ public class UserRepositoryJdbcImpl implements UserRepository {
             row.getString("name"),
             row.getString("email"),
             row.getString("password"),
-            row.getString("profile_description")
-    );
-
-    private final RowMapper<UserDto> userDtoRowMapper = row -> new UserDto(
-            row.getInt("id"),
-            row.getString("name"),
-            row.getString("email"),
             row.getString("profile_description")
     );
 
@@ -76,7 +68,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public Optional<UserDto> findById(Integer id) {
+    public Optional<User> findById(Integer id) {
         try (Connection connection = dataSource.getConnection()) {
 
             String sql = "select * from account where id = ?";
@@ -85,7 +77,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        return Optional.of(userDtoRowMapper.mapRow(resultSet));
+                        return Optional.of(userRowMapper.mapRow(resultSet));
                     }
                     return Optional.empty();
                 }
@@ -96,13 +88,13 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public List<UserDto> findAll() {
-        List<UserDto> users = new ArrayList<>();
+    public List<User> findAll() {
+        List<User> users = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 try (ResultSet resultSet = statement.executeQuery("select * from account")) {
                     while (resultSet.next()) {
-                        users.add(userDtoRowMapper.mapRow(resultSet));
+                        users.add(userRowMapper.mapRow(resultSet));
                     }
                 }
             }
@@ -136,8 +128,8 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public List<UserDto> findAllByProfileDescription(String profileDescription) {
-        List<UserDto> users = new ArrayList<>();
+    public List<User> findAllByProfileDescription(String profileDescription) {
+        List<User> users = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
 
             String sql = "select * from account where profile_description = ?";
@@ -146,7 +138,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        users.add(userDtoRowMapper.mapRow(resultSet));
+                        users.add(userRowMapper.mapRow(resultSet));
                     }
                 }
             }

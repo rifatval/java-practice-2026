@@ -29,7 +29,7 @@ public class UserConsoleOperations {
             }
             break;
             case "3": {
-                findById();
+                printUserById();
             }
             break;
             case "4": {
@@ -91,12 +91,12 @@ public class UserConsoleOperations {
     }
 
     // method prints user`s Email by it`s Id
-    private void findById() {
+    private void printUserById() {
         System.out.println("Введите id пользователя:");
         Integer id = scanner.nextInt();
         scanner.nextLine(); // чтобы избавиться от лишнего \n в буфере
 
-        userService.findById(id);
+        userService.printUserById(id);
     }
     private void updateProfileDescriptionByEmail() {
         System.out.println("Вы можете изменить описание профиля.");
